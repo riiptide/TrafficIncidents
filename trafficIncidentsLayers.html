@@ -1,0 +1,299 @@
+<html>
+<head>
+    <title>trafficIncidentsLayers</title>
+    <meta charset="utf-8">
+
+    <!-- Leaflet assets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
+
+    <!-- Leaflet.markercluster assets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css">
+    <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster-src.js"></script>
+
+    <!-- Leaflet.FeatureGroup.SubGroup assets -->
+    <script src="https://unpkg.com/leaflet.featuregroup.subgroup@1.0.2/dist/leaflet.featuregroup.subgroup.js"></script>
+
+
+    <style type="text/css">
+        html, body { width:100%;padding:0;margin:0; }
+        .container { width:95%;max-width:980px;padding:1% 2%;margin:0 auto }
+        #lat, #lon { text-align:right }
+        #map { width:100%;height:75%;padding:0;margin:0; }
+        .address { cursor:pointer }
+        .address:hover { color:#AA0000;text-decoration:underline }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <b>Click to see incidents</b>
+    <div id="search">
+
+        <button type="button" onclick="incidentLoop(deer_addresses);">Deer</button>
+        <button type="button" onclick="loadIncidents('./data/deer.csv');">loadDeerFile</button>
+
+
+
+        <div id="results"></div>
+    </div>
+
+    <br />
+
+    <div id="map"></div>
+
+</div>
+
+<script type="text/javascript">
+
+    var deerIcon = L.icon({
+        iconUrl: 'images/deer.png',
+        iconSize:     [30, 30],
+        iconAnchor:   [22, 94],
+        popupAnchor:  [-3, -76]
+    });
+
+    var bikeIcon = L.icon({
+        iconUrl: 'images/bike.png',
+        iconSize:     [30, 30],
+        iconAnchor:   [22, 94],
+        popupAnchor:  [-3, -76]
+    });
+
+    var pedestrianIcon = L.icon({
+        iconUrl: 'images/pedestrian.png',
+        iconSize:     [30, 30],
+        iconAnchor:   [22, 94],
+        popupAnchor:  [-3, -76]
+    });
+
+    var injuryIcon = L.icon({
+        iconUrl: 'images/crashInjury.png',
+        iconSize:     [30, 30],
+        iconAnchor:   [22, 94],
+        popupAnchor:  [-3, -76]
+    });
+
+    var nonInjuryIcon = L.icon({
+        iconUrl: 'images/nonInjury.png',
+        iconSize:     [30, 30],
+        iconAnchor:   [22, 94],
+        popupAnchor:  [-3, -76]
+    });
+
+
+    // Princeton
+    var startlat = 40.3573;
+    var startlon = -74.6672;
+
+    var options = {
+        center: [startlat, startlon],
+        zoom: 12
+    }
+
+
+
+    var map = L.map('map', options);
+    var nzoom = 12;
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OSM'}).addTo(map);
+
+    var myMarker = L.marker([startlat, startlon], {title: "Coordinates", alt: "Coordinates", draggable: true}).addTo(map).on('dragend', function() {
+        var lat = myMarker.getLatLng().lat.toFixed(8);
+        var lon = myMarker.getLatLng().lng.toFixed(8);
+        var czoom = map.getZoom();
+        if(czoom < 18) { nzoom = czoom + 2; }
+        if(nzoom > 18) { nzoom = 18; }
+        if(czoom != 18) { map.setView([lat,lon], nzoom); } else { map.setView([lat,lon]); }
+        myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    });
+
+
+
+
+    function addrSearch3(item, index)
+    {
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + item;
+        xmlhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myArr = JSON.parse(this.responseText);
+                //myFunction(myArr);
+                //chooseAddr(myArr[0].lat, myArr[0].lng, myArr[0].display_name);
+                addMarker(myArr[0].lat, myArr[0].lng, myArr[0].display_name);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+
+    var deer_addresses = new Array("Lawrenceville Road, Princeton, NJ", "Mercer Street, Princeton, NJ");
+
+    function incidentLoop(arr){
+        arr.forEach(addrSearch3)
+    }
+
+
+    function addMarker(lat1, lng1,displayName)
+    {
+
+        var marker = L.marker([lat1,lng1],{icon: deerIcon}).addTo(map);
+
+        var popup = L.popup()
+            .setLatLng([lat1, lng1])
+            .setContent(displayName)
+            .openOn(map);
+    }
+
+
+
+    class incident {
+        constructor(brcYear,dayOfWeek,streetName,incidentType,timeDispatched,lat,lon) {
+            this.brcYear = brcYear
+            this.dayOfWeek=dayOfWeek;
+            this.streetName=streetName;
+            this.incidentType=incidentType;
+            this.timeDispatched=timeDispatched;
+            this.lat=lat;
+            this.lng=lon;
+
+        }
+    }
+
+
+    var csvData = new Array();
+    function loadIncidents(url){
+
+        var request = new XMLHttpRequest();
+        request.open("GET", url, false);
+        request.send(null);
+
+
+
+        var jsonObject = request.responseText.split(/\r?\n|\r/);
+        for (var i = 0; i < jsonObject.length; i++) {
+            var lines = jsonObject[i].split(',');
+            addrSearch(lines[2]);
+            csvData.push(new incident(lines[0],lines[1],lines[2],lines[3],lines[4],lat,lon));
+        }
+// Retrived data from csv file content
+        console.log(csvData);
+        //incidentLoopFromFile(csvData)
+        displayCluster(csvData);
+    }
+
+    function incidentLoopFromFile(arr){
+        arr.forEach(addrSearch4)
+
+    }
+
+
+
+
+ function displayCluster(markers){
+     //var markerClusters = L.markerClusterGroup();
+
+     for ( var i = 0; i < markers.length; i++ )
+     {
+         var popup = markers[i].streetName +
+             '<br/><b>Day:</b>' + markers[i].dayOfWeek +
+             '<br/><b>Type:</b> ' + markers[i].incidentType;
+var m;
+//switch images
+         switch(markers[i].incidentType) {
+             case "Motor Vehicle Crash - Deer":
+                 m = L.marker( [markers[i].lat, markers[i].lng], {icon: deerIcon} )
+                     .bindPopup( popup );
+                 break;
+             case "Motor Vehicle Crash - Bicycle":
+                 m = L.marker( [markers[i].lat, markers[i].lng], {icon: bikeIcon} )
+                     .bindPopup( popup );
+                 break;
+             case "Motor Vehicle Crash - Pedestrian":
+                 m = L.marker( [markers[i].lat, markers[i].lng], {icon: pedestrianIcon} )
+                     .bindPopup( popup );
+                 break;
+             case "Motor Vehicle Crash - Injury":
+                 m = L.marker( [markers[i].lat, markers[i].lng], {icon: InjuryIcon} )
+                     .bindPopup( popup );
+                 break;
+             case "Motor Vehicle Crash - No Injury":
+                 m = L.marker( [markers[i].lat, markers[i].lng], {icon: noInjuryIcon} )
+                     .bindPopup( popup );
+                 break;
+             default:
+                 m = L.marker( [markers[i].lat, markers[i].lng] )
+                     .bindPopup( popup );
+         }
+
+
+
+m.addTo(map)
+
+         //markerClusters.addLayer( m );
+     }
+
+     //map.addLayer( markerClusters );
+ }
+
+    // L.marker([myArr[0].lat,myArr[0].lng],{icon: deerIcon}).bindPopup(item.streetName);
+    var lat;
+    var lon;
+
+    function addrSearch4(item, index)
+    {
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + item.streetName + ", Princeton,NJ";
+        xmlhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myArr = JSON.parse(this.responseText);
+                //myFunction(myArr);
+                //chooseAddr(myArr[0].lat, myArr[0].lng, myArr[0].display_name);
+                addMarker(myArr[0].lat, myArr[0].lng, item.streetName);
+                // item.lat=myArr[0].lat;
+                // item.lng=myArr[0].lng;
+
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+
+    function addrSearch(streetName)
+    {
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + streetName + ", Princeton,NJ";
+        var url = "http://www.mapquestapi.com/geocoding/v1/address?key=LC9Ce4ezHKfKiBUmLAInGoCq0sgWQBOM&outFormat=json&location="+ streetName + ", Princeton,NJ";
+        xmlhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myArr = JSON.parse(this.responseText);
+
+                //lat = myArr[0].lat;
+                //lng = myArr[0].lng;
+                lat=myArr.results[0].locations[0].latLng.lat;
+                lon=myArr.results[0].locations[0].latLng.lng;
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+</script>
+
+
+<script src="incidents.js"/>
+</body>
+</html>
+
