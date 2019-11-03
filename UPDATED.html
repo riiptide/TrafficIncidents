@@ -97,7 +97,7 @@
             <input data-off="No Injury" data-offstyle="outline-secondary" data-on="No Injury" data-onstyle="success"
                    data-toggle="toggle" id="noInjury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
                    value="Motor Vehicle Crash - No Injury">
-            <input data-off="Injury" data-offstyle="outline-secondary" data-on="Injury" data-onstyle="success"
+            <input data-off="Car Injury" data-offstyle="outline-secondary" data-on="Car Injury" data-onstyle="success"
                    data-toggle="toggle" id="Injury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
                    value="Motor Vehicle Crash - Injury">
 
@@ -328,7 +328,7 @@ function clear()
 
 
     function tts(type){
-
+        clear();
         for(var i=0; i<csvData.length;i++){
             hour= csvData[i].timeDispatched.substring(0, 2)
             if(hour .localeCompare('12')==0 || hour .localeCompare('13')==0|| hour .localeCompare('14')==0 || hour .localeCompare('15')==0 || hour .localeCompare('16')==0|| hour .localeCompare('17')==0){
@@ -341,7 +341,7 @@ function clear()
 
 
     function stt(type){
-
+        clear();
         for(var i=0; i<csvData.length;i++){
             hour= csvData[i].timeDispatched.substring(0, 2)
             if(hour .localeCompare('18')==0 || hour .localeCompare('19')==0|| hour .localeCompare('20')==0 || hour .localeCompare('21')==0 || hour .localeCompare('22')==0|| hour .localeCompare('23')==0){
