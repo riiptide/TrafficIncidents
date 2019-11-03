@@ -2,7 +2,11 @@
 <head>
     <title>trafficIncidentsFromFile</title>
     <meta charset="utf-8">
+    <!--bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--bootstrap toggle-->
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
     <!-- Leaflet assets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
@@ -19,6 +23,11 @@
 
     <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
     <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
+
+    <script
+            crossorigin="anonymous"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <style type="text/css">
         html, body { width:100%;padding:0;margin:0; }
@@ -47,8 +56,6 @@
 
 <body style="background-color:#000000;">
 
-</body>
-<body>
 
 <div class="container">
 
@@ -76,84 +83,81 @@
     </font>
     <div id="search">
 <!--search by type of accident-->
+        <form>
+
+            <input data-off="Deer" data-offstyle="outline-secondary" data-on="Deer" data-onstyle="success"
+                   data-toggle="toggle" id="deer" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
+                   value="Motor Vehicle Crash - Deer">
+            <input data-off="Pedestrian" data-offstyle="outline-secondary" data-on="Pedestrian" data-onstyle="success"
+                   data-toggle="toggle" id="Pedestrian" name="incidentType" onchange="showIncidentsAll() "
+                   type="checkbox" value="Motor Vehicle Crash - Pedestrian">
+            <input data-off="Bicycle" data-offstyle="outline-secondary" data-on="Bicycle" data-onstyle="success"
+                   data-toggle="toggle" id="Bicycle" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
+                   value="Motor Vehicle Crash - Bicycle">
+            <input data-off="No Injury" data-offstyle="outline-secondary" data-on="No Injury" data-onstyle="success"
+                   data-toggle="toggle" id="noInjury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
+                   value="Motor Vehicle Crash - No Injury">
+            <input data-off="Injury" data-offstyle="outline-secondary" data-on="Injury" data-onstyle="success"
+                   data-toggle="toggle" id="Injury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
+                   value="Motor Vehicle Crash - Injury">
 
 
-        <button type="button" class="btn btn-primary " data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents('Motor Vehicle Crash - Deer')">
-            Deer
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents('Motor Vehicle Crash - Pedestrian')">
-            Pedestrian
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents('Motor Vehicle Crash - Bicycle')">
-            Bicycle
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents('Motor Vehicle Crash - No Injury')">
-            Non-Injury
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents('Motor Vehicle Crash - Injury')">
-            Injury
-        </button>
-
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="markers.clearLayers();">
-            Injury
-        </button>
-
-        <br>
-        <br>
+            <br>
+            <br>
 
 
- <!--search by day-->
-        <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Sunday')">
-            Sunday
-        </button>
+            <!--search by day-->
+            <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Sunday')">
+                Sunday
+            </button>
 
-        <button type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Monday')">
-            Monday
-        </button>
+            <button type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Monday')">
+                Monday
+            </button>
 
-        <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Tuesday')">
-            Tuesday
-        </button>
+            <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Tuesday')">
+                Tuesday
+            </button>
 
-        <button type="button" class="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Wednesday')">
-            Wednesday
-        </button>
+            <button type="button" class="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Wednesday')">
+                Wednesday
+            </button>
 
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Thursday')">
-            Thursday
-        </button>
+            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Thursday')">
+                Thursday
+            </button>
 
-        <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Friday')">
-            Friday
-        </button>
+            <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Friday')">
+                Friday
+            </button>
 
-        <button type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Saturday')">
-            Saturday
-        </button>
+            <button type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Saturday')">
+                Saturday
+            </button>
 
-        <br>
-        <br>
+            <br>
+            <br>
 
-        <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="twelvetosix('00')">
-            12 AM to 6 AM
-        </button>
+            <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="twelvetosix('00')">
+                12 AM to 6 AM
+            </button>
 
-        <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="sixtotwelve('00')">
-            6 AM to 12 PM
-        </button>
+            <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="sixtotwelve('00')">
+                6 AM to 12 PM
+            </button>
 
-        <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="tts('00')">
-            12 PM to 6 PM
-        </button>
+            <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="tts('00')">
+                12 PM to 6 PM
+            </button>
 
-        <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="stt('00')">
-            6 PM to 12 PM
-        </button>
+            <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="stt('00')">
+                6 PM to 12 PM
+            </button>
 
-        <br>
-        <br>
+            <br>
+            <br>
 
-
+        </form>
 
 
         <div id="results"></div>
@@ -227,6 +231,8 @@
     });
 
     var map = L.map('map', options);
+    // Creating layer group
+    var markerGroup = L.layerGroup();
 
     var nzoom = 12;
 
@@ -242,25 +248,61 @@
     //     myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
     // });
 
-
+    var points = new Array();
 function clear()
 {
+    // if (map != undefined) {
+    //     map.off();
+    //     map.remove();
+    //     map.redrawAll();
+    // }
+    for (var i = 0; i < points.lenght; i++) {
+    }
+    markerGroup.clearLayers();
 
 }
 
     function showIncidents(type,dayOfWeek){
-
+        clear();
         for(var i=0; i<csvData.length;i++){
             if(csvData[i].incidentType  === type){
                 addMarker(csvData[i]);
+
             }
         }
 
+        // Adding layer group to map
+        markerGroup.addTo(map);
+    }
+
+    function showIncidentsAll() {
+        clear();
+        var typesArr = new Array();
+        var checkboxes = document.getElementsByName("incidentType");
+        var numberOfCheckedItems = 0;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked)
+                typesArr.push(checkboxes[i].value)
+        }
+
+
+        for (var i = 0; i < csvData.length; i++) {
+            for (var j = 0; j < typesArr.length; j++) {
+                if (csvData[i].incidentType === typesArr[j]) {
+                    addMarker(csvData[i]);
+
+                }
+            }
+        }
+
+        // Adding layer group to map
+        markerGroup.addTo(map);
     }
 
 
-    function twelvetosix(type){
 
+    function twelvetosix(type){
+        clear();
         for(var i=0; i<csvData.length;i++){
             hour= csvData[i].timeDispatched.substring(0, 2)
             if(hour .localeCompare('00')==0 || hour .localeCompare('01')==0 || hour .localeCompare('02')==0 || hour .localeCompare('03')==0 || hour .localeCompare('04')==0 || hour .localeCompare('05')==0){
@@ -273,7 +315,7 @@ function clear()
 
 
     function sixtotwelve(type){
-
+        clear();
         for(var i=0; i<csvData.length;i++){
             hour= csvData[i].timeDispatched.substring(0, 2)
             if(hour .localeCompare('06')==0 || hour .localeCompare('07')==0|| hour .localeCompare('08')==0 || hour .localeCompare('09')==0 || hour .localeCompare('10')==0|| hour .localeCompare('11')==0){
@@ -312,7 +354,7 @@ function clear()
 
 
     function showIncidents2(type2){
-
+        clear();
         for(var i=0; i<csvData.length;i++){
             if(csvData[i].dayOfWeek  === type2){
                 addMarker(csvData[i]);
@@ -359,7 +401,8 @@ function clear()
                 m = L.marker( [lat1, lng1] )
                     .bindPopup( popup );
         }
-m.addTo(map);
+        m.addTo(markerGroup);
+        points.push(m);
 
     }
 
@@ -399,10 +442,12 @@ m.addTo(map);
 </script>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 </body>
 </html>
