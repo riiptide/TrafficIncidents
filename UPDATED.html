@@ -82,6 +82,7 @@
 
     </font>
     <div id="search">
+
 <!--search by type of accident-->
         <form>
 
@@ -256,7 +257,7 @@ function clear()
     //     map.remove();
     //     map.redrawAll();
     // }
-    for (var i = 0; i < points.lenght; i++) {
+    for (var i = 0; i < points.length; i++) {
     }
     markerGroup.clearLayers();
 
@@ -309,7 +310,7 @@ function clear()
                 addMarker(csvData[i]);
             }
         }
-
+        markerGroup.addTo(map);
     }
 
 
@@ -322,7 +323,7 @@ function clear()
                 addMarker(csvData[i]);
             }
         }
-
+        markerGroup.addTo(map);
     }
 
 
@@ -335,7 +336,7 @@ function clear()
                 addMarker(csvData[i]);
             }
         }
-
+        markerGroup.addTo(map);
     }
 
 
@@ -348,7 +349,7 @@ function clear()
                 addMarker(csvData[i]);
             }
         }
-
+        markerGroup.addTo(map);
     }
 
 
@@ -360,7 +361,7 @@ function clear()
                 addMarker(csvData[i]);
             }
         }
-
+        markerGroup.addTo(map);
     }
 
 
