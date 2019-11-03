@@ -20,4 +20,9 @@ lots of javascript and a sick API called Leaflet
 - `cd` into repo 
 - Open the code as a project in your favorite ide, such webstorm or brackets 
 - Run TrafficIncidentsPtonMain.html
+- the toggle buttons for accident type work, but you have to refresh the page to clear the day of week and time buttons. 
+- click an icon to see more information on it
 - Have fun
+
+# demo link
+https://riiptide.github.io/TrafficIncidents/
