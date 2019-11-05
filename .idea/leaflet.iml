@@ -8,5 +8,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="leaflet" level="application" />
+    <orderEntry type="library" name="leaflet.markercluster-src" level="application" />
+    <orderEntry type="library" name="leaflet.featuregroup.subgroup" level="application" />
+    <orderEntry type="library" name="bundle" level="application" />
+    <orderEntry type="library" name="jquery-3.4.1" level="application" />
+    <orderEntry type="library" name="bootstrap4-toggle" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="popper" level="application" />
   </component>
 </module>

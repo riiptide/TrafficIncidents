@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>index</title>
     <meta charset="utf-8">
@@ -30,12 +30,16 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <style type="text/css">
-        html, body { width:100%;padding:0;margin:0; }
+
+
+        /* Move down content because we have a fixed navbar that is 3.5rem tall */
+        body {
+            padding-top: 3.5rem;
+        }
         .container { width:95%;max-width:980px;padding:1% 2%;margin:0 auto }
-        #lat, #lon { text-align:right }
+
+
         #map { width:100%;height:75%;padding:0;margin:0; }
-        .address { cursor:pointer }
-        .address:hover { color:#AA0000;text-decoration:underline }
 
         .btn-black{background-color:#000;color: #FFF;}
         .btn-black:hover{background-color:#00FF00; color: #FFF;}
@@ -75,20 +79,41 @@
   fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=778962412563841&ev=PageView&noscript=1"
-/></noscript>
+               alt="facebook"
+               src="https://www.facebook.com/tr?id=778962412563841&ev=PageView&noscript=1"/></noscript>
 <!-- End Facebook Pixel Code -->
 </head>
 
 <body style="background-color:#000000;">
 
 
-<div class="container">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#"><img alt="" height="115" src="images/CrashMap-logo.png" width="246"/></a>
+    <button aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler" data-target="#navbarsExampleDefault" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-center" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><H4>Interactive Traffic Incidents Map For New Drivers. <span
+                        class="sr-only">(current)</span></H4></a>
+            </li>
+
+        </ul>
 
 
-<h1 style="color:white;">CrashMap</h1>
-    <h2 style="color:white;"> Interactive Traffic Incidents Map For New Drivers.</h2>
-    <font color="white"><b> The night before I drove to school for the first time, I went online to find the safest route to school. There was nowhere to find where accidents were most common, which is shocking. I was unfamiliar with the traffic patterns, and I did not know what to look out for.
+        <img alt="" height="79" src="images/winner.png" width="201"/></div>
+</nav>
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+    <div class="container">
+
+        <p id="about">
+            <br><br>
+            <b> The night before I drove to school for the first time, I went online to find the safest route to
+                school. There was nowhere to find where accidents were most common, which is shocking. I was
+                unfamiliar with the traffic patterns, and I did not know what to look out for.
 
 <br>
         For our hack, we decided to solve this problem. We created a comprehensive accident map, with data straight from the Princeton Police Department. You and your parents can use our it to see hotspots for accidents and potential areas to avoid, and learn the traffic pattern to get a good sense of the roads in the area.
@@ -96,40 +121,44 @@
         <br>
         Enjoy!
         <br>
-        ~Team APStatsGods
+                ~Aaliyah
         <br>
-        <img src=https://making-the-web.com/sites/default/files/clipart/174897/winner-png-transparent-images-174897-5185314.jpg wudth=45px height=45px/>PHS Hackathon 2019
-    </b>
-
-        <br>
-        <br>
-       Toggle buttons to see accidents.
 
 
-    </font>
+            </b>
+        </p>
 
 
-
-    <div id="search">
-
+        <div id="search">
+            Toggle buttons to see accidents.
 <!--search by type of accident-->
         <form>
 
-            <input data-off="Deer" data-offstyle="outline-secondary" data-on="Deer" data-onstyle="success"
-                   data-toggle="toggle" id="deer" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
-                   value="Motor Vehicle Crash - Deer">
-            <input data-off="Pedestrian" data-offstyle="outline-secondary" data-on="Pedestrian" data-onstyle="success"
-                   data-toggle="toggle" id="Pedestrian" name="incidentType" onchange="showIncidentsAll() "
-                   type="checkbox" value="Motor Vehicle Crash - Pedestrian">
-            <input data-off="Bicycle" data-offstyle="outline-secondary" data-on="Bicycle" data-onstyle="success"
-                   data-toggle="toggle" id="Bicycle" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
-                   value="Motor Vehicle Crash - Bicycle">
-            <input data-off="No Injury" data-offstyle="outline-secondary" data-on="No Injury" data-onstyle="success"
-                   data-toggle="toggle" id="noInjury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
-                   value="Motor Vehicle Crash - No Injury">
-            <input data-off="Car Injury" data-offstyle="outline-secondary" data-on="Car Injury" data-onstyle="success"
-                   data-toggle="toggle" id="Injury" name="incidentType" onchange="showIncidentsAll()" type="checkbox"
-                   value="Motor Vehicle Crash - Injury">
+            <label for="deer"></label><input data-off="Deer" data-offstyle="outline-secondary" data-on="Deer"
+                                             data-onstyle="success"
+                                             data-toggle="toggle" id="deer" name="incidentType"
+                                             onchange="showIncidentsAll()" type="checkbox"
+                                             value="Motor Vehicle Crash - Deer">
+            <label for="Pedestrian"></label><input data-off="Pedestrian" data-offstyle="outline-secondary"
+                                                   data-on="Pedestrian" data-onstyle="success"
+                                                   data-toggle="toggle" id="Pedestrian" name="incidentType"
+                                                   onchange="showIncidentsAll() "
+                                                   type="checkbox" value="Motor Vehicle Crash - Pedestrian">
+            <label for="Bicycle"></label><input data-off="Bicycle" data-offstyle="outline-secondary" data-on="Bicycle"
+                                                data-onstyle="success"
+                                                data-toggle="toggle" id="Bicycle" name="incidentType"
+                                                onchange="showIncidentsAll()" type="checkbox"
+                                                value="Motor Vehicle Crash - Bicycle">
+            <label for="noInjury"></label><input data-off="No Injury" data-offstyle="outline-secondary"
+                                                 data-on="No Injury" data-onstyle="success"
+                                                 data-toggle="toggle" id="noInjury" name="incidentType"
+                                                 onchange="showIncidentsAll()" type="checkbox"
+                                                 value="Motor Vehicle Crash - No Injury">
+            <label for="Injury"></label><input data-off="Car Injury" data-offstyle="outline-secondary"
+                                               data-on="Car Injury" data-onstyle="success"
+                                               data-toggle="toggle" id="Injury" name="incidentType"
+                                               onchange="showIncidentsAll()" type="checkbox"
+                                               value="Motor Vehicle Crash - Injury">
 
 
             <br>
@@ -137,50 +166,60 @@
 
 
             <!--search by day-->
-            <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Sunday')">
+            <button aria-pressed="false" class="btn btn-danger" data-toggle="button" onclick="showIncidents2('Sunday')"
+                    type="button">
                 Sunday
             </button>
 
-            <button type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Monday')">
+            <button aria-pressed="false" class="btn btn-warning" data-toggle="button" onclick="showIncidents2('Monday')"
+                    type="button">
                 Monday
             </button>
 
-            <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Tuesday')">
+            <button aria-pressed="false" class="btn btn-success" data-toggle="button"
+                    onclick="showIncidents2('Tuesday')" type="button">
                 Tuesday
             </button>
 
-            <button type="button" class="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Wednesday')">
+            <button aria-pressed="false" class="btn btn-info" data-toggle="button" onclick="showIncidents2('Wednesday')"
+                    type="button">
                 Wednesday
             </button>
 
-            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Thursday')">
+            <button aria-pressed="false" class="btn btn-primary" data-toggle="button"
+                    onclick="showIncidents2('Thursday')" type="button">
                 Thursday
             </button>
 
-            <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Friday')">
+            <button aria-pressed="false" class="btn btn-secondary" data-toggle="button"
+                    onclick="showIncidents2('Friday')" type="button">
                 Friday
             </button>
 
-            <button type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="showIncidents2('Saturday')">
+            <button aria-pressed="false" class="btn btn-dark" data-toggle="button" onclick="showIncidents2('Saturday')"
+                    type="button">
                 Saturday
             </button>
 
             <br>
             <br>
 
-            <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="twelvetosix('00')">
+            <button aria-pressed="false" class="btn btn-midnight" data-toggle="button" onclick="twelvetosix('00')"
+                    type="button">
                 12 AM to 6 AM
             </button>
 
-            <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="sixtotwelve('00')">
+            <button aria-pressed="false" class="btn btn-sky" data-toggle="button" onclick="sixtotwelve('00')"
+                    type="button">
                 6 AM to 12 PM
             </button>
 
-            <button type="button" class="btn btn-sky" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="tts('00')">
+            <button aria-pressed="false" class="btn btn-sky" data-toggle="button" onclick="tts('00')" type="button">
                 12 PM to 6 PM
             </button>
 
-            <button type="button" class="btn btn-midnight" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="stt('00')">
+            <button aria-pressed="false" class="btn btn-midnight" data-toggle="button" onclick="stt('00')"
+                    type="button">
                 6 PM to 12 PM
             </button>
 
@@ -196,10 +235,32 @@
     <br />
 
     <div id="map"></div>
+        <div class="align-bottom">
+            <hr>
+            <h4>Send a message:</h4>
+            <form action="https://formspree.io/xrgzwnol" class="form-inline"
+                  method="POST">
+                <label class="sr-only" for="inlineFormInputName2">Name</label>
+                <input class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Your Name" type="text">
 
+                <label class="sr-only" for="inlineFormInputGroupUsername2">email</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <input class="form-control" id="inlineFormInputGroupUsername2" name="_replyto"
+                           placeholder="Your Email" type="text">
+                </div>
+                <label class="sr-only" for="inlineFormInputGroupMessage">message</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <textarea class="form-control" id="inlineFormInputGroupMessage" name="message"
+                              placeholder="Your Message"></textarea>
+                </div>
+
+                <button class="btn btn-primary mb-2" type="submit">Submit</button>
+            </form>
+        </div>
 </div>
 
-<script type="text/javascript">
+
+    <script type="text/javascript">
 
 
     var deerIcon = L.icon({
@@ -247,7 +308,7 @@
     var options = {
         center: [startlat, startlon],
         zoom: 12
-    }
+    };
 
     // instead of import {} from 'leaflet-geosearch', use the `window` global
     var GeoSearchControl = window.GeoSearch.GeoSearchControl;
@@ -278,7 +339,7 @@
     //     myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
     // });
 
-    var points = new Array();
+    var points = [];
 function clear()
 {
     // if (map != undefined) {
@@ -292,7 +353,7 @@ function clear()
 
 }
 
-    function showIncidents(type,dayOfWeek){
+    function showIncidents(type) {
         clear();
         for(var i=0; i<csvData.length;i++){
             if(csvData[i].incidentType  === type){
@@ -307,9 +368,8 @@ function clear()
 
     function showIncidentsAll() {
         clear();
-        var typesArr = new Array();
+        var typesArr = [];
         var checkboxes = document.getElementsByName("incidentType");
-        var numberOfCheckedItems = 0;
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked)
                 typesArr.push(checkboxes[i].value)
@@ -334,8 +394,8 @@ function clear()
     function twelvetosix(type){
         clear();
         for(var i=0; i<csvData.length;i++){
-            hour= csvData[i].timeDispatched.substring(0, 2)
-            if(hour .localeCompare('00')==0 || hour .localeCompare('01')==0 || hour .localeCompare('02')==0 || hour .localeCompare('03')==0 || hour .localeCompare('04')==0 || hour .localeCompare('05')==0){
+            hour = csvData[i].timeDispatched.substring(0, 2);
+            if (hour.localeCompare('00') === 0 || hour.localeCompare('01') === 0 || hour.localeCompare('02') === 0 || hour.localeCompare('03') === 0 || hour.localeCompare('04') === 0 || hour.localeCompare('05') === 0) {
                 addMarker(csvData[i]);
             }
         }
@@ -347,8 +407,8 @@ function clear()
     function sixtotwelve(type){
         clear();
         for(var i=0; i<csvData.length;i++){
-            hour= csvData[i].timeDispatched.substring(0, 2)
-            if(hour .localeCompare('06')==0 || hour .localeCompare('07')==0|| hour .localeCompare('08')==0 || hour .localeCompare('09')==0 || hour .localeCompare('10')==0|| hour .localeCompare('11')==0){
+            hour = csvData[i].timeDispatched.substring(0, 2);
+            if (hour.localeCompare('06') === 0 || hour.localeCompare('07') === 0 || hour.localeCompare('08') === 0 || hour.localeCompare('09') === 0 || hour.localeCompare('10') === 0 || hour.localeCompare('11') === 0) {
                 addMarker(csvData[i]);
             }
         }
@@ -360,8 +420,8 @@ function clear()
     function tts(type){
         clear();
         for(var i=0; i<csvData.length;i++){
-            hour= csvData[i].timeDispatched.substring(0, 2)
-            if(hour .localeCompare('12')==0 || hour .localeCompare('13')==0|| hour .localeCompare('14')==0 || hour .localeCompare('15')==0 || hour .localeCompare('16')==0|| hour .localeCompare('17')==0){
+            hour = csvData[i].timeDispatched.substring(0, 2);
+            if (hour.localeCompare('12') === 0 || hour.localeCompare('13') === 0 || hour.localeCompare('14') === 0 || hour.localeCompare('15') === 0 || hour.localeCompare('16') === 0 || hour.localeCompare('17') === 0) {
                 addMarker(csvData[i]);
             }
         }
@@ -373,8 +433,8 @@ function clear()
     function stt(type){
         clear();
         for(var i=0; i<csvData.length;i++){
-            hour= csvData[i].timeDispatched.substring(0, 2)
-            if(hour .localeCompare('18')==0 || hour .localeCompare('19')==0|| hour .localeCompare('20')==0 || hour .localeCompare('21')==0 || hour .localeCompare('22')==0|| hour .localeCompare('23')==0){
+            hour = csvData[i].timeDispatched.substring(0, 2);
+            if (hour.localeCompare('18') === 0 || hour.localeCompare('19') === 0 || hour.localeCompare('20') === 0 || hour.localeCompare('21') === 0 || hour.localeCompare('22') === 0 || hour.localeCompare('23') === 0) {
                 addMarker(csvData[i]);
             }
         }
@@ -439,7 +499,7 @@ function clear()
 
     class incident {
         constructor(brcYear,dayOfWeek,streetName,incidentType,timeDispatched,lat,lng) {
-            this.brcYear = brcYear
+            this.brcYear = brcYear;
             this.dayOfWeek=dayOfWeek;
             this.streetName=streetName;
             this.incidentType=incidentType;
@@ -450,7 +510,7 @@ function clear()
         }
     }
 
-    var csvData = new Array();
+    var csvData = [];
 
         var request = new XMLHttpRequest();
         request.open("GET", './data/masterLatLng.csv', false);
@@ -471,6 +531,11 @@ function clear()
 
 </script>
 
+</div>
+
+<div class="inner">
+    <p>Copyright Aaliyah Sayed 2019.</p>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
